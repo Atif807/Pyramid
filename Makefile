@@ -65,6 +65,16 @@ ex_iga_colors:
 	$(CXX) $(CURRENT_FLAGS) examples/iga-colors/iga-colors.cpp -o $(BIN)/iga-colors $(LIBS) $(G_LIBS)
 	@echo "-----------------------------------------------"
 	$(BIN)/iga-colors
+	
+pyramid_mo:
+	$(CXX) $(CURRENT_FLAGS) examples/Pyramid/pyramid_mo1.cpp -o $(BIN)/example_mo3 $(LIBS)
+	@echo "-----------------------------------------------"
+	$(BIN)/example_mo3	
+	
+pyramid_mo1:
+	$(CXX) $(CURRENT_FLAGS) examples/Pyramid/level1.cpp -o $(BIN)/pyramid_mo1 $(LIBS)
+	@echo "-----------------------------------------------"
+	$(BIN)/pyramid_mo1	
 
 clean:
 	rm ./bin/example_*

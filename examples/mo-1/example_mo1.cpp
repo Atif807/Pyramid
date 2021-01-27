@@ -149,7 +149,7 @@ int main()
 	ga_obj.solve();
 
 	std::cout<<"The problem is optimized in "<<timer.toc()<<" seconds."<<std::endl;
-
+	//std::cout<<"The problem is optimized in "<<timer.toc()*1000<<" milli seconds."<<std::endl;
 	save_results(ga_obj);
 	return 0;
 }

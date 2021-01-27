@@ -1,0 +1,22 @@
+#LEVEL 1 (BASELINE)
+for (( run=1 ; run <=50 ; run=${run}+1 )) ; do
+#Level 1
+        g++ -O3 -s -DNDEBUG -std=c++11 -pthread -I./src -Wall -Wconversion -Wfatal-errors -Wextra examples/Pyramid/level2.cpp -o ./bin/L1
+        ./bin/L1 0 1 5000 3000 30 20 $run
+        cp bin/result_mo1.txt Pyramid/mo/L2/baseline/${run}.txt
+done;
+
+
+#LEVEL 2
+for (( run=1 ; run <=50 ; run=${run}+1 )) ; do
+#Level 1
+        g++ -O3 -s -DNDEBUG -std=c++11 -pthread -I./src -Wall -Wconversion -Wfatal-errors -Wextra examples/Pyramid/level1.cpp -o ./bin/L1
+        ./bin/L1 1 2 5000 1500 15 20 $run
+        cp promoted_L1_individuals.txt Pyramid/mo/L2/L1_final/${run}_promoted_ind.txt
+        cp bin/result_so-rastrigin.txt Pyramid/mo/L2/L1_final/${run}.txt
+#Level 2
+        g++ -O3 -s -DNDEBUG -std=c++11 -pthread -I./src -Wall -Wconversion -Wfatal-errors -Wextra examples/Pyramid/level2.cpp -o ./bin/L2
+        ./bin/L2 2 2 1000 1500 15 20 $run
+        cp bin/result_mo1.txt Pyramid/mo/L2/L2_final/${run}.txt
+done;
+

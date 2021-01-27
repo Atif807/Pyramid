@@ -6,8 +6,28 @@
 #include <fstream>
 #include "openGA.hpp"
 
+//by Atif
+#include <vector>
+#include <sstream>
+#include <iomanip>
+
+
 struct MySolution
 {
+//std::vector<double> x;
+
+//	std::string to_string() const
+//	{
+//		std::ostringstream out;
+//		out<<"{";
+//		for(unsigned long i=0;i<x.size();i++)
+//			out<<(i?",":"")<<std::setprecision(10)<<x[i];
+//		out<<"}";
+//		return out.str();
+//	}
+
+
+//commented by Atif
 	double x1;
 	double x2;
 
@@ -33,19 +53,29 @@ typedef EA::GenerationType<MySolution,MyMiddleCost> Generation_Type;
 
 void init_genes(MySolution& p,const std::function<double(void)> &rnd01)
 {
+//	for(int i=0; i<11; i++)
+//		p.x.push_back(1.0*rnd01());
+	//commented by Atif
 	p.x1=1.0*rnd01();
 	p.x2=1.0*rnd01();
+//	std::cout<<"size "<<p.x.size()<<std::endl;
+//	for (int i=0; i<p.x.size(); i++)
+//		std::cout<<p.x[i]<<std::endl;
 }
 
 bool eval_solution(
 	const MySolution& p,
 	MyMiddleCost &c)
 {
+	//double x1 = p.x;
 	double x1=p.x1;
 	double x2=p.x2;
 	// the middle comupations of cost:
 	double g=(x1-0.5)*(x1-0.5)+(x2-0.5)*(x2-0.5);
+	//double g=1;
 	constexpr double pi=3.14159265359;
+	//c.cost_f1=(1+g);//*cos(x1*pi/2);
+        //c.cost_f2=(1+g);//*sin(x1*pi/2);
 	c.cost_f1=(1+g)*cos(x1*pi/2);
 	c.cost_f2=(1+g)*sin(x1*pi/2);
 	return true; // genes are accepted
@@ -136,7 +166,7 @@ int main()
 	GA_Type ga_obj;
 	ga_obj.problem_mode= EA::GA_MODE::NSGA_III;
 	ga_obj.dynamic_threading=false;
-	ga_obj.multi_threading=true;
+	ga_obj.multi_threading=false;
 	ga_obj.idle_delay_us=1; // switch between threads quickly
 	ga_obj.verbose=false;
 	ga_obj.population=40;

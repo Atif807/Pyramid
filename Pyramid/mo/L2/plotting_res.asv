@@ -1,0 +1,30 @@
+
+dummy_avg=[];
+
+for i=1:5
+file = readtable('baseline/1.txt');
+obj1 = file(:,2);
+obj1 = obj1{:,:};
+obj2 = file(:,3);
+obj2 = obj2{:,:};
+
+for j= 1:length(obj1)
+    dummy_avg(j,i) = obj1(j);
+end
+
+
+end
+
+
+
+
+plot(obj2, obj1);
+
+
+file = readtable('L2/1.txt');
+obj1 = file(:,2);
+obj1 = obj1{:,:};
+obj2 = file(:,3);
+obj2 = obj2{:,:};
+
+plot(obj2, obj1);

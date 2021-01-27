@@ -1,9 +1,8 @@
 # openGA
-A free C++ Genetic Algorithm library
-
+A forked repository from Arash OpenGA. 
 <br>
 
-### Download
+### Original Download from Arash
 
 Download link:
 
