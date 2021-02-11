@@ -14,6 +14,83 @@
 #include <sys/types.h>
 //using namespace std;
 
+int current_level;
+int a=0;
+void read_previous_genes(MySolution &p)
+{
+          std::ifstream inFile;
+          std::string s;
+          std::vector< double > vd;
+          double d = 0.0;
+
+         //std::string file_name = "Pyramid/Results/L"+std::to_string(total_level)+"/L"+std::to_string(current_level-1)+"_results/promoted_individuals.txt";
+         std::string file_name = "Pyramid/Results/L3/L2_results/promoted_individuals.txt";
+         std::cout<<file_name <<std::endl;
+    inFile.open(file_name);
+    if (!inFile) {
+            std::cout << "Unable to open this file";
+        exit(1); // terminate with error
+    }
+
+for (int lineno = 0; getline (inFile,s); lineno++)
+{      //std::cout<< "inside loop "<<a<<std::endl;
+        if (lineno == a)
+        { std::cout << s << std::endl;
+                //std::cout<< "inside if "<<a<<std::endl;
+    std::size_t pos = 0;
+    std::size_t pos1 = 0;
+    std::size_t pos2 = 0;
+    //std::vector< double > vd;
+    //double d = 0.0;
+    while (pos < s.size())
+    {   if ((pos = s.find_first_of (',',pos)) != std::string::npos)
+            s[pos] = ' ';}
+    while (pos1 < s.size())
+        { if ((pos1 = s.find_first_of ('{',pos1)) != std::string::npos)
+            s[pos1] = ' ';}
+   while (pos2 < s.size())
+        { if ((pos2 = s.find_first_of ('}',pos2)) != std::string::npos)
+            s[pos2] = ' ';}
+
+            std::stringstream ss(s);
+     while (ss >> d)
+        vd.push_back (d);
+     //     for (int i = 0; i <int( vd.size())-1; ++i) //-1 because last one is the fitness
+        //          p.x.push_back(vd[i]);
+             }
+     }
+  //   std::cout << s << std::endl;
+            //   for (int i=0; i <p.x.size(); i++)
+              //  std::cout << p.x[i] << std::endl;
+         inFile.close();
+         for (int i = 0; i <int( vd.size())-1; ++i) //-1 because last one is the fitness
+                  p.x.push_back(vd[i]);
+      //   for(int i=0; i<p.x.size(); i++)
+          std::cout<<p.to_string()<<std::endl;
+     a= a+1;
+     }
+
+std::ofstream initial_generation;
+//int init_gen = 1;
+
+void init_genes(MySolution &p, const std::function<double(void)> &rnd01) {
+	if(current_level > 1)
+	{
+
+		read_previous_genes(p);
+	}
+//std::cout<<"init_genes called = "<<init_gen <<std::endl;
+//init_gen = init_gen+1;
+	for (int i = 0; i < genome_length; i++)
+		{p.x.push_back(5.12 * 2.0 * (rnd01() - 0.5));}
+	//std::cout << "chromosome size = "<< p.x.size() << std::endl;
+	///std::cout << p.x.size() << std::endl;
+//	initial_generation.open("initial_generation.txt");
+	//	        for(int i=0; i<p.x.size(); i++)
+		//        	initial_generation << p.x[i] <<"\t ";
+		  //      initial_generation<<"\n";
+  //  initial_generation.close();
+}
 
 int main(int argc, char *argv[]) {
 	//output_file.open("./bin/result_so-rastrigin.txt");
@@ -83,28 +160,35 @@ int main(int argc, char *argv[]) {
 	ga_obj.crossover_fraction = 0.8;
 	ga_obj.mutation_rate = 0.005;
 
-
-	for(int current_level=1; current_level<=total_level; current_level++)
+	genome_length = pyramid_obj.get_genome_length()/total_level;
+	std::cout<<"genome length in main = "<<genome_length<<std::endl;
+	for(current_level=1; current_level<=total_level; current_level++)
 		{
 
 		output_file.open("./bin/results.txt");
 		create_folders(current_level, total_level);
 		//update pop and generation
+		std::cout<<"Level = "+std::to_string(current_level)+"\n"<<std::endl;
 		ga_obj.population = update_pop(current_level, total_level);
-		//std::cout<<"pop = "<< ga_obj.population<<std::endl;
+		std::cout<<"pop = "<< ga_obj.population<<std::endl;
 		ga_obj.generation_max = update_gen(total_level);
-		//std::cout<<"Gen = "<< ga_obj.generation_max<<std::endl;
-		//std::cout<<"Level = "+std::to_string(current_level)+"\n"<<std::endl;
-		ga_obj.solve(current_level, total_level);
+		std::cout<<"Gen = "<< ga_obj.generation_max<<std::endl;
+		int promoted_inds = update_pop((current_level+1), total_level);
+		std::cout<<"promoted inds = "<<promoted_inds <<std::endl;
+
+		ga_obj.solve(current_level, total_level, promoted_inds);
 		//copy file
 		output_file.close();
 		std::string des = "Pyramid/Results/L"+std::to_string(total_level)+"/L"+std::to_string(current_level)+"_results/result.txt";
 		const char *destination = des.c_str();
 		copyFile("./bin/results.txt", destination );
-		if(current_level < total_level){
-		std::string des1 = "Pyramid/Results/L"+std::to_string(total_level)+"/L"+std::to_string(current_level)+"_results/promoted_individuals.txt";
-		const char *destination1 = des1.c_str();
-		copyFile("promoted_individuals.txt", destination1 );}
+		if (current_level < total_level) {
+			std::string des1 = "Pyramid/Results/L" + std::to_string(total_level)
+					+ "/L" + std::to_string(current_level)
+					+ "_results/promoted_individuals.txt";
+			const char *destination1 = des1.c_str();
+			copyFile("promoted_individuals.txt", destination1);
+		}
 		}
 
 

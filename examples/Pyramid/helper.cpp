@@ -20,7 +20,7 @@
 int genome_length;
 int file_n;
 int total_level;
-int level;
+
 
 void create_folders(int c_level, int t_level){
 
@@ -42,8 +42,8 @@ bool copyFile(const char *SRC, const char* DEST)
 }
 
 
-int P_init = 5000;
-int P_final = 200;
+int P_init = 500;
+int P_final = 20;
 
 int update_pop(int current_l, int total_l){
 	int D;
@@ -80,10 +80,7 @@ struct MyMiddleCost {
 typedef EA::Genetic<MySolution, MyMiddleCost> GA_Type;
 typedef EA::GenerationType<MySolution, MyMiddleCost> Generation_Type;
 
-void init_genes(MySolution &p, const std::function<double(void)> &rnd01) {
-	for (int i = 0; i < 5; i++)
-		p.x.push_back(5.12 * 2.0 * (rnd01() - 0.5));
-}
+
 
 bool eval_solution(const MySolution &p, MyMiddleCost &c) {
 	//EA::Chronometer timer;

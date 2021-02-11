@@ -470,7 +470,7 @@ public:
 		last_generation=generation0;
 	}
 
-	StopReason solve_next_generation(int level, int total_level)
+	StopReason solve_next_generation(int level, int total_level, int promoted_inds)
 	{
 		Chronometer timer;
 		timer.tic();
@@ -495,19 +495,19 @@ public:
 		}
 		last_generation=new_generation;
 
-		if(level==0 || level==total_level)
+		if(level==total_level)
 		          return stop_critera();//}
         else
-		          return L1_stop_critera(last_generation);//}
+		          return L1_stop_critera(last_generation, promoted_inds);//}
 
 	}
 
-	StopReason solve(int level, int total_level)
+	StopReason solve(int level, int total_level, int promoted_inds)
 	{
 		StopReason stop=StopReason::Undefined;
 		solve_init();
 		while(stop==StopReason::Undefined)
-			stop=solve_next_generation(level, total_level);
+			stop=solve_next_generation(level, total_level, promoted_inds);
 		show_stop_reason(stop);
 		return stop;
 	}
@@ -1712,7 +1712,7 @@ protected:
 		}
 	}
 
-	StopReason L1_stop_critera(thisGenerationType last_generation)
+	StopReason L1_stop_critera(thisGenerationType last_generation, int promoted_inds)
 	        {
 	                //cout<< "BEfore SORTING"<<endl;
 	                //for (int i=0; i<int(last_generation.chromosomes.size()); i++)
@@ -1730,7 +1730,7 @@ protected:
 	                      std::ofstream o_file;
 	                      o_file.open("promoted_individuals.txt");
 	                      double sum = 0.0;
-	                          for (int i=0; i<loop_limit; i++)
+	                          for (int i=0; i<promoted_inds ; i++)
 	                          {
 	                          double fitness = calculate_SO_total_fitness(gen.chromosomes[i]);
 	                          o_file <<  gen.chromosomes[i].genes.to_string() << "\t" << fitness <<  "\n";

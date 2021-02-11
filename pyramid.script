@@ -2,11 +2,11 @@
 
 USER_FILE="examples/Pyramid/level1.cpp"
 
-for (( run=1 ; run <=5 ; run=${run}+1 )) ; do
+for (( run=1 ; run <=1 ; run=${run}+1 )) ; do
 	g++ -O3 -s -DNDEBUG -std=c++11 -pthread -I./src -Wall -Wconversion -Wfatal-errors -Wextra $USER_FILE Pyramid/pyramid.cpp -o ./bin/pyramid
 	./bin/pyramid 3
-	mv Pyramid/Results/L3/L1_results/result.txt Pyramid/Results/L3/L1_results/${run}.txt
-        mv Pyramid/Results/L3/L2_results/result.txt Pyramid/Results/L3/L2_results/${run}.txt
-	mv Pyramid/Results/L3/L3_results/result.txt Pyramid/Results/L3/L3_results/${run}.txt	
+#	mv Pyramid/Results/L3/L1_results/result.txt Pyramid/Results/L3/L1_results/${run}.txt
+ #       mv Pyramid/Results/L3/L2_results/result.txt Pyramid/Results/L3/L2_results/${run}.txt
+#	mv Pyramid/Results/L3/L3_results/result.txt Pyramid/Results/L3/L3_results/${run}.txt	
 done;
 
