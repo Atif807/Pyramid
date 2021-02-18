@@ -6,7 +6,7 @@ Starting at the top of the Pyramid, the individuals address the simplest complex
 ## Pyramid Limitations
 Currently, the library only solves the mathematical optimiaztion problems using Genetic Algorithm. 
 ## By Default Pyramid
-(Pyramid/Pyramid_default_2_level.jpg)
+![Pyramid 2 levels]((Pyramid/Pyramid_default_2_level.jpg)
 
 
 # openGA
